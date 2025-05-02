@@ -1,0 +1,105 @@
+Yes, let’s define a **project spec for the user-facing website** that generates the clickstream data and interacts with the backend system described above.
+
+This site acts as the **front-end experience for customers**, such as an e-commerce site or subscription service, and sends behavioral data (clicks, scrolls, logins, cart actions) to the backend analytics platform in real-time.
+
+---
+
+## 🧠 Project Spec: **User Website (Front-End Client)**
+
+### 🎯 **Goal**
+
+Provide a responsive and engaging customer interface that:
+
+* Delivers personalized experiences using backend ML predictions
+* Sends user behavior events (clicks, page views, purchases) to the ingestion service
+* Displays real-time offers or fraud warnings based on model inference
+
+---
+
+## 🌐 **Tech Stack**
+
+| Component           | Technology Used                        | Purpose                                   |
+| ------------------- | -------------------------------------- | ----------------------------------------- |
+| Front-End Framework | **React** or **Next.js**               | Dynamic, responsive UI                    |
+| Styling             | **Tailwind CSS**                       | Clean, utility-first styling              |
+| State Management    | **Redux Toolkit** or **React Context** | Manage user state, recommendations        |
+| API Communication   | **Axios / Fetch API**                  | Send events to backend ingestion API      |
+| Real-Time Features  | **WebSockets** or **SSE**              | Receive push updates (e.g., fraud alerts) |
+| Model Predictions   | **Backend API (Flask + Ray Serve)**    | Request real-time personalization         |
+| Deployment          | **Vercel / Netlify / S3 + CloudFront** | Fast global hosting                       |
+
+---
+
+## 📦 **Key Features**
+
+### 1. **User Authentication**
+
+* Secure login and account creation (JWT or OAuth)
+* Tracks active user sessions for behavior analytics
+
+### 2. **Behavioral Tracking**
+
+* Clicks, page views, scroll depth, form submissions
+* Events sent via `POST /track-event` to ingestion microservice
+
+### 3. **Real-Time Personalization**
+
+* On page load, call `/predict?user_id=123` to get:
+
+  * Recommended products
+  * Fraud score (if relevant)
+  * Dynamic pricing tier
+
+### 4. **Live Feedback**
+
+* WebSockets connection shows fraud alerts or delivery status updates instantly
+
+### 5. **Event Batching**
+
+* Events are queued in browser memory
+* Batch-sent every few seconds or before `unload` for efficiency
+
+---
+
+## ✨ **UI Components**
+
+| Component          | Description                                                          |
+| ------------------ | -------------------------------------------------------------------- |
+| `ProductCarousel`  | Shows ML-personalized product suggestions                            |
+| `FraudAlertBanner` | Displays risk warning if fraud score is high                         |
+| `ActivityTracker`  | JS utility that listens to DOM events and queues events for dispatch |
+| `SessionTimer`     | Logs session length, time on page, idle time                         |
+| `CheckoutPage`     | Triggers transaction event + model prediction check                  |
+
+---
+
+## 🔄 **Event Payload Example**
+
+```json
+{
+  "user_id": "abc123",
+  "event_type": "add_to_cart",
+  "timestamp": "2025-05-01T12:34:56Z",
+  "page": "/product/234",
+  "metadata": {
+    "product_id": 234,
+    "price": 29.99
+  }
+}
+```
+
+Sent to: `POST https://api.company.com/track-event`
+
+---
+
+## ✅ **User Experience Workflow**
+
+1. User visits homepage → behavior tracking begins
+2. API call to `/predict` returns recommended products → displayed in `ProductCarousel`
+3. User clicks products, scrolls, and adds items to cart → events sent to backend
+4. Fraud detection model returns a high-risk score → `FraudAlertBanner` appears
+5. All session data stored for analytics in S3 + Snowflake
+
+---
+
+Would you like this expanded into a full UI wireframe, page list, or component structure in code?
