@@ -1,0 +1,15 @@
+Provider	Free Tier	Paid Tier starts at
+Netlify	100 GB bandwidth	$19/mo
+Render	Static sites free; $7+/mo for SSR	$7/mo
+AWS Amplify	5 GB storage, 1 GB/month bandwidth	~$10/mo (after)
+DigitalOcean App Platform	No free plan for SSR	$5–$12/mo
+Self-host (e.g., EC2, Linode)	None	~$5–$10/mo
+
+OR 
+
+Vercel (free tier)
+Monthly cost: $0 for most personal/small business use cases
+Limits:
+100 GB bandwidth/month
+1 GB serverless function execution/month
+10,000 edge function invocations/day
