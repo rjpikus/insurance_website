@@ -20,6 +20,9 @@ def view_counter():
     count = redis_client.incr("page_views")
     return render_template_string(HTML_TEMPLATE, count=count)
 
+@bp.route("/", methods=["GET"])
+def home():
+    return "<h1>Ingestion Service is Running</h1>", 200
 
 @bp.route('/health', methods=['GET'])
 def health():
