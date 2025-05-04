@@ -4,7 +4,7 @@
       "buildCommand": "docker build -t ingestion-service ."
       },
     "deploy": {
-      "startCommand": "gunicorn app.main:app -b 0.0.0.0:$PORT --workers 2",
+      "startCommand": "gunicorn app.main:app -b 0.0.0.0:5000 --workers 2",
       "healthcheckPath": "/health",
       "healthcheckTimeout": 100
       }
