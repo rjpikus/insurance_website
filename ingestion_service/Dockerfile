@@ -6,3 +6,4 @@ COPY . .
 ENV FLASK_ENV=production
 CMD ["gunicorn", "app.main:app", "-b", "0.0.0.0:5000", "--workers", "2"]
 ENV PYTHONPATH=/app
+EXPOSE 5000
