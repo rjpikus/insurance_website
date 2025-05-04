@@ -1,8 +1,25 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, render_template_string
 from . import db, logger
 from .models import Event
+from .extensions import redis_client
 
 bp = Blueprint('routes', __name__)
+
+HTML_TEMPLATE = """
+<!DOCTYPE html>
+<html>
+<head><title>Page Views</title></head>
+<body>
+    <h1>This page has been viewed {{ count }} times.</h1>
+</body>
+</html>
+"""
+
+@bp.route("/views")
+def view_counter():
+    count = redis_client.incr("page_views")
+    return render_template_string(HTML_TEMPLATE, count=count)
+
 
 @bp.route('/health', methods=['GET'])
 def health():
