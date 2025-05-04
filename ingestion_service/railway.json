@@ -1,8 +1,11 @@
 {
-    "serviceName": "ingestion-service",
+    "$schema": "https://railway.com/railway.schema.json",
     "build": {
-        "dockerfilePath": "",
-        "context": "."
+      "buildCommand": "docker build -t ingestion-service ."
       },
-    "start": "gunicorn app.main:app -b 0.0.0.0:$PORT --workers 2"
+    "deploy": {
+      "startCommand": "gunicorn app.main:app -b 0.0.0.0:$PORT --workers 2",
+      "healthcheckPath": "/",
+      "healthcheckTimeout": 100
+      }
 }
