@@ -1,7 +1,8 @@
 {
+    "serviceName": "ingestion-service",
     "build": {
-      "dockerfilePath": "Dockerfile",
-      "context": "."
-    },
-    "startCommand": "gunicorn app.main:app -b 0.0.0.0:$PORT --workers 2"
+        "dockerfilePath": "",
+        "context": "."
+      },
+    "start": "gunicorn app.main:app -b 0.0.0.0:$PORT --workers 2"
 }
