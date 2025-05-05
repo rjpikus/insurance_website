@@ -1,55 +1,12 @@
 {
+  "$schema": "https://railway.com/railway.schema.json",
   "build": {
-    "builder": "DOCKERFILE",
-    "dockerfilePath": "docker/Dockerfile"
-  },
-  "deploy": {
-    "restartPolicyType": "ON_FAILURE",
-    "restartPolicyMaxRetries": 10
-  },
-  "services": [
-    {
-      "name": "batch-api",
-      "type": "worker",
-      "envVars": [
-        {
-          "key": "FLASK_HOST",
-          "value": "0.0.0.0"
-        },
-        {
-          "key": "FLASK_PORT",
-          "sync": true
-        },
-        {
-          "key": "FLASK_DEBUG",
-          "value": "False"
-        },
-        {
-          "key": "LOG_LEVEL",
-          "value": "INFO"
-        }
-      ],
-      "healthcheck": {
-        "path": "/health",
-        "interval": 10,
-        "timeout": 5,
-        "retries": 3
-      }
+    "buildCommand": "docker build -t batch_processing_service ."
     },
-    {
-      "name": "batch-worker",
-      "type": "worker",
-      "command": "./docker/rq_worker.sh",
-      "envVars": [
-        {
-          "key": "WORKER_ID",
-          "value": "railway-worker-{instance_id}"
-        },
-        {
-          "key": "LOG_LEVEL",
-          "value": "INFO"
-        }
-      ]
+  "deploy": {
+    "startCommand": "rq_worker.sh",
+    "healthcheckPath": "/health",
+    "healthcheckTimeout": 100
     }
-  ]
 }
+
